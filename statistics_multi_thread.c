@@ -1,16 +1,23 @@
 #include<stdio.h>
 #include<pthread.h>
 
-int size=7;
+int size;
 int avg_val,min_val,max_val;
+
+pthread_t avg,min,max;
 
 void *average(void *args);
 void *minimum(void *args);
 void *maximum(void *args);
 
 int main(){
-	pthread_t avg,min,max;
-	int val[7]={90,81,78,95,79,72,85};
+	printf("Enter the number of elements: ");
+	scanf("%d", &size);
+	int val[size];
+	printf("Enter %d elements (i.e. N1 N2 ...): ", size);
+	for(int i=0; i<size; i++)
+		scanf("%d",&val[i]);
+
 	pthread_create(&avg,NULL,average,(void*)val);
 	pthread_create(&min,NULL,minimum,(void*)val);
 	pthread_create(&max,NULL,maximum,(void*)val);
