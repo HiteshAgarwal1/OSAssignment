@@ -19,14 +19,17 @@ int main(){
 		scanf("%d",&val[i]);
 
 	pthread_create(&avg,NULL,average,(void*)val);
-	pthread_create(&min,NULL,minimum,(void*)val);
-	pthread_create(&max,NULL,maximum,(void*)val);
 	pthread_join(avg,NULL);
-	pthread_join(min,NULL);
-	pthread_join(max,NULL);
 	printf("The average value is %d\n",avg_val);
+
+	pthread_create(&min,NULL,minimum,(void*)val);
+	pthread_join(min,NULL);
 	printf("The minimun value is %d\n",min_val);
+
+	pthread_create(&max,NULL,maximum,(void*)val);
+	pthread_join(max,NULL);
 	printf("The maximum value is %d\n",max_val);
+
 return 0;
 }
 void *average(void *args){
@@ -43,7 +46,7 @@ void *minimum(void *args){
 		if(!(min_val<array[i]))
 			min_val=array[i];
 	}
-	
+
 }
 void *maximum(void *args){
 	int *array = (int*)args;

@@ -8,11 +8,11 @@
 int main()
 {
     // Initializing two pipes
-	int fd1[2]; 
-	int fd2[2]; 
+	int fd1[2];
+	int fd2[2];
 
 
-	char input_str[100];
+
 	pid_t p;
 
 	if (pipe(fd1)==-1)
@@ -25,9 +25,8 @@ int main()
 		fprintf(stderr, "Pipe Failed" );
 		return 1;
 	}
-	
-    printf("Enter String: ");
-	scanf("%[^\n]s", input_str);
+
+
 	p = fork();
 
 	if (p < 0)
@@ -40,6 +39,12 @@ int main()
 	else if (p > 0)
 	{
 		char reverse_str[100];
+		char input[100];
+		printf("Enter String: ");
+	    scanf("%[^\n]s", input);
+		close(fd1[0]);
+		write(fd1[1], input, strlen(input)+1);
+        close(fd1[1]);
 
 		// Wait for child to send a string
 		wait(NULL);
@@ -55,8 +60,9 @@ int main()
 	// child process
 	else
 	{
+	    char input_str[100];
 		close(fd1[1]); // Close writing end of first pipe
-		
+        read(fd1[0], input_str, 100);
 		char reverse_str[100];
 
 		// Reverse Case
@@ -69,7 +75,7 @@ int main()
             else
                 reverse_str[i] = input_str[i];
 		}
-			
+
 
 		reverse_str[i] = '\0'; // ends with '\0' {C programming concept}
 
