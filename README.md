@@ -45,7 +45,6 @@ read end of pipe.
 fd[1] will be the fd for the write end of pipe.
 Returns : 0 on Success.
 -1 on error.
-```
 ### Test Cases
 ```
 Input String: 12…a..546L;
